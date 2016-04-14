@@ -1,12 +1,15 @@
 @echo off
 
-javac -source 1.6 -target 1.6 -d .\ .\src\binfileutils\*.java
+javac -source 1.7 -target 1.7 -d .\ .\src\binfileutils\*.java
 jar cfm AmverseasBinDecoder.jar manifest.txt binfileutils\*.class
 IF EXIST .\lib goto deletelib
 
-:deletelib
-del /q /s .\lib  > nul
-rmdir /q /s .\lib  > nul
+:deletelib
+
+del /q /s .\lib  > nul
+
+rmdir /q /s .\lib  > nul
+
 :exit
 
 mkdir .\lib
