@@ -50,11 +50,15 @@ public class AmverseasBinDecoder {
      * <strong>(FXY48211)</strong>-This method returns the old message type.
      *
      * @return  <strong>(FXY48211)</strong>-This method returns the old message
-     * type.
+     * type.Returns 0 when there is an exception.
      */
     public int getOldMessageType() {
+        try {
 
-        return toInteger(72, 77);
+            return toInteger(72, 77);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     /**
@@ -62,11 +66,21 @@ public class AmverseasBinDecoder {
      * used in Amverseas
      *
      * @return  <strong>(FXY48216)</strong>-This method returns the new message
-     * types used in Amverseas The types can be a value from 1-3.
+     * types used in Amverseas The types can be a value from 1-3. Returns 0 when
+     * there is an exception.
      */
     public int getNewMessageType() {
+        try {
+            int mt = toInteger(78, 87);
 
-        return toInteger(78, 87);
+            if (mt < 1 || mt > 3) {
+                mt = 0;
+            }
+
+            return mt;
+        } catch (Exception e) {
+            return 0;
+        }//end catch
     }
 
     /**
@@ -77,9 +91,9 @@ public class AmverseasBinDecoder {
      * the measurement was made. The value is returned in decimal degrees.
      */
     public double getLatitude() {
-        int[] start = {88, 88, 88};
-        int[] end = {112, 112, 112};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 88, 88, 88};
+        int[] end = {-1, 112, 112, 112};
+        int mt = getNewMessageType();
 
         return (toInteger(start[mt], end[mt]) - 9000000) / 100000.0;
 
@@ -93,9 +107,9 @@ public class AmverseasBinDecoder {
      * where the measurement was made. The value is returned in decimal degrees.
      */
     public double getLongitude() {
-        int[] start = {113, 113, 113};
-        int[] end = {138, 138, 138};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 113, 113, 113};
+        int[] end = {-1, 138, 138, 138};
+        int mt = getNewMessageType();
 
         return (toInteger(start[mt], end[mt]) - 18000000) / 100000.0;
     }//end method
@@ -109,9 +123,9 @@ public class AmverseasBinDecoder {
      * message type 2
      */
     public String getSoopLine() {
-        int[] start = {-1, 139, 139};
-        int[] end = {-1, 186, 186};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, 139, 139};
+        int[] end = {-1, -1, 186, 186};
+        int mt = getNewMessageType();
 
         return toString(start[mt], end[mt]);
 
@@ -127,9 +141,9 @@ public class AmverseasBinDecoder {
      * value of -999 is returned when there is no value.
      */
     public int getTransectNumber() {
-        int[] start = {-1, 187, 187};
-        int[] end = {-1, 193, 193};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, 187, 187};
+        int[] end = {-1, -1, 193, 193};
+        int mt = getNewMessageType();
 
         return toInteger(start[mt], end[mt]);
     }
@@ -140,9 +154,9 @@ public class AmverseasBinDecoder {
      * @return <strong>(FXY48304)</strong>-This method returns
      */
     public int getSequenceNumber() {
-        int[] start = {-1, 194, 194};
-        int[] end = {-1, 209, 209};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, 194, 194};
+        int[] end = {-1, -1, 209, 209};
+        int mt = getNewMessageType();
 
         return toInteger(start[mt], end[mt]);
     }
@@ -156,9 +170,9 @@ public class AmverseasBinDecoder {
      * value.
      */
     public int getYear() {
-        int[] start = {139, 210, 210};
-        int[] end = {150, 221, 221};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 139, 210, 210};
+        int[] end = {-1, 150, 221, 221};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }
 
@@ -171,9 +185,9 @@ public class AmverseasBinDecoder {
      * value.
      */
     public int getMonth() {
-        int[] start = {151, 222, 222};
-        int[] end = {154, 225, 225};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 151, 222, 222};
+        int[] end = {-1, 154, 225, 225};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }
 
@@ -186,9 +200,9 @@ public class AmverseasBinDecoder {
      * value.
      */
     public int getDay() {
-        int[] start = {155, 226, 226};
-        int[] end = {160, 231, 231};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 155, 226, 226};
+        int[] end = {-1, 160, 231, 231};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }
 
@@ -201,9 +215,9 @@ public class AmverseasBinDecoder {
      * value.
      */
     public int getHour() {
-        int[] start = {161, 232, 232};
-        int[] end = {165, 236, 236};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 161, 232, 232};
+        int[] end = {-1, 165, 236, 236};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }
 
@@ -216,9 +230,9 @@ public class AmverseasBinDecoder {
      * no value.
      */
     public int getMinute() {
-        int[] start = {166, 237, 237};
-        int[] end = {171, 242, 242};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 166, 237, 237};
+        int[] end = {-1, 171, 242, 242};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }
 
@@ -230,9 +244,9 @@ public class AmverseasBinDecoder {
      * ship. If there is no name then the string "NONE" is returned.
      */
     public String getShipName() {
-        int[] start = {172, 243, 243};
-        int[] end = {411, 482, 482};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 172, 243, 243};
+        int[] end = {-1, 411, 482, 482};
+        int mt = getNewMessageType();
         return toString(start[mt], end[mt]);
     }
 
@@ -245,9 +259,9 @@ public class AmverseasBinDecoder {
      * returned when there is no value.
      */
     public int getLloyds() {
-        int[] start = {412, 483, 483};
-        int[] end = {435, 506, 506};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 412, 483, 483};
+        int[] end = {-1, 435, 506, 506};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }
 
@@ -262,9 +276,9 @@ public class AmverseasBinDecoder {
      * there is no value.
      */
     public int getUniqueTag() {
-        int[] start = {436, 507, 507};
-        int[] end = {467, 538, 538};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 436, 507, 507};
+        int[] end = {-1, 467, 538, 538};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }
 
@@ -278,9 +292,9 @@ public class AmverseasBinDecoder {
      * version 9.20 A value of -999 is returned when there is no value.
      */
     public int getSeasVersion() {
-        int[] start = {468, 539, 539};
-        int[] end = {477, 548, 548};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 468, 539, 539};
+        int[] end = {-1, 477, 548, 548};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }
 
@@ -293,9 +307,9 @@ public class AmverseasBinDecoder {
      * there is no value.
      */
     public int getProbeSerialNumber() {
-        int[] start = {478, 549, 549};
-        int[] end = {497, 572, 572};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 478, 549, 549};
+        int[] end = {-1, 497, 572, 572};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }
 
@@ -309,9 +323,9 @@ public class AmverseasBinDecoder {
      * returned when there is no value.
      */
     public int getThisDataIs() {
-        int[] start = {498, 573, 573};
-        int[] end = {500, 575, 575};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 498, 573, 573};
+        int[] end = {-1, 500, 575, 575};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }
 
@@ -326,9 +340,9 @@ public class AmverseasBinDecoder {
      * value.
      */
     public int getDataQuality() {
-        int[] start = {501, 576, 576};
-        int[] end = {503, 578, 578};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 501, 576, 576};
+        int[] end = {-1, 503, 578, 578};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }
 
@@ -342,9 +356,9 @@ public class AmverseasBinDecoder {
      */
     public double getLauncherHeight() {
 
-        int[] start = {-1, 579, 579};
-        int[] end = {-1, 591, 591};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, 579, 579};
+        int[] end = {-1, -1, 591, 591};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]) / 100.0;
     }
 
@@ -357,9 +371,9 @@ public class AmverseasBinDecoder {
      * of -999.0 is returned when there is no value.
      */
     public double getShipDirection() {
-        int[] start = {-1, 592, 592};
-        int[] end = {-1, 600, 600};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, 592, 592};
+        int[] end = {-1, -1, 600, 600};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }//end method
 
@@ -372,9 +386,9 @@ public class AmverseasBinDecoder {
      * when there is no value.
      */
     public double getShipSpeed() {
-        int[] start = {-1, 601, 601};
-        int[] end = {-1, 613, 613};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, 601, 601};
+        int[] end = {-1, -1, 613, 613};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]) / 100.0;
     }//end method
 
@@ -388,9 +402,9 @@ public class AmverseasBinDecoder {
      * when there is no value.
      */
     public int getInstrumentType() {
-        int[] start = {504, 614, 614};
-        int[] end = {513, 623, 623};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 504, 614, 614};
+        int[] end = {-1, 513, 623, 623};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }//end method
 
@@ -406,9 +420,9 @@ public class AmverseasBinDecoder {
      *
      */
     public int getRecorderType() {
-        int[] start = {514, 624, 624};
-        int[] end = {520, 630, 630};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 514, 624, 624};
+        int[] end = {-1, 520, 630, 630};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }//end method
 
@@ -421,9 +435,9 @@ public class AmverseasBinDecoder {
      * there is no value.
      */
     public int getWindInstrumentType() {
-        int[] start = {521, 631, 631};
-        int[] end = {524, 634, 634};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 521, 631, 631};
+        int[] end = {-1, 524, 634, 634};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }//end method
 
@@ -436,9 +450,9 @@ public class AmverseasBinDecoder {
      * returned when there is no value.
      */
     public double getWindDiretion() {
-        int[] start = {525, 635, 635};
-        int[] end = {533, 643, 643};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 525, 635, 635};
+        int[] end = {-1, 533, 643, 643};
+        int mt = getNewMessageType();
 
         return toInteger(start[mt], end[mt]);
     }//end method
@@ -452,9 +466,9 @@ public class AmverseasBinDecoder {
      * there is no value.
      */
     public double getWindSpeed() {
-        int[] start = {534, 644, 644};
-        int[] end = {545, 655, 655};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 534, 644, 644};
+        int[] end = {-1, 545, 655, 655};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]) / 10.0;
     }//end method
 
@@ -467,9 +481,9 @@ public class AmverseasBinDecoder {
      * when there is no value.
      */
     public double getDryBulbTemp() {
-        int[] start = {546, 656, 656};
-        int[] end = {557, 667, 667};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 546, 656, 656};
+        int[] end = {-1, 557, 667, 667};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]) / 10.0;
     }//end method
 
@@ -481,9 +495,9 @@ public class AmverseasBinDecoder {
      * measurement method. A value of -999 is returned when there is no value.
      */
     public int getCurrentMeasurementMethod() {
-        int[] start = {558, 668, 668};
-        int[] end = {560, 670, 670};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 558, 668, 668};
+        int[] end = {-1, 560, 670, 670};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }//end method
 
@@ -495,9 +509,9 @@ public class AmverseasBinDecoder {
      * current direction . A value of -999 is returned when there is no value.
      */
     public int getCurrentDirection() {
-        int[] start = {561, 671, 671};
-        int[] end = {569, 679, 679};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 561, 671, 671};
+        int[] end = {-1, 569, 679, 679};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }//end method
 
@@ -509,9 +523,9 @@ public class AmverseasBinDecoder {
      * current speed A value of -999 is returned when there is no value.
      */
     public double getCurrentSpeed() {
-        int[] start = {570, 680, 680};
-        int[] end = {582, 692, 692};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 570, 680, 680};
+        int[] end = {-1, 582, 692, 692};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]) / 100.00;
     }//end method
 
@@ -524,9 +538,9 @@ public class AmverseasBinDecoder {
      * returned when there is no value.
      */
     public int getTotalWaterDepth() {
-        int[] start = {583, 693, 693};
-        int[] end = {596, 706, 706};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 583, 693, 693};
+        int[] end = {-1, 596, 706, 706};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }//end method
 
@@ -539,9 +553,9 @@ public class AmverseasBinDecoder {
      * when there is no value.
      */
     public int getAgencyOwner() {
-        int[] start = {-1, -1, 707};
-        int[] end = {-1, -1, 726};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 707};
+        int[] end = {-1, -1, -1, 726};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }//end method
 
@@ -554,9 +568,9 @@ public class AmverseasBinDecoder {
      * when there is no value.
      */
     public int getXBTLauncherType() {
-        int[] start = {-1, -1, 727};
-        int[] end = {-1, -1, 734};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 727};
+        int[] end = {-1, -1, -1, 734};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }//end method
 
@@ -568,9 +582,9 @@ public class AmverseasBinDecoder {
      * of the recorder used. A value of -999 is returned when there is no value.
      */
     public String getXBTRecorderSerialNumber() {
-        int[] start = {-1, -1, 735};
-        int[] end = {-1, -1, 798};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 735};
+        int[] end = {-1, -1, -1, 798};
+        int mt = getNewMessageType();
         return toString(start[mt], end[mt]);
     }// end method
 
@@ -583,9 +597,9 @@ public class AmverseasBinDecoder {
      * no value.
      */
     public int getXBTRecorderManufacturedYear() {
-        int[] start = {-1, -1, 799};
-        int[] end = {-1, -1, 810};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 799};
+        int[] end = {-1, -1, -1, 810};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -598,9 +612,9 @@ public class AmverseasBinDecoder {
      * no value.
      */
     public int getXBTRecorderManufacturedMonth() {
-        int[] start = {-1, -1, 811};
-        int[] end = {-1, -1, 814};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 811};
+        int[] end = {-1, -1, -1, 814};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -613,9 +627,9 @@ public class AmverseasBinDecoder {
      * no value.
      */
     public int getXBTRecorderManufacturedDay() {
-        int[] start = {-1, -1, 815};
-        int[] end = {-1, -1, 820};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 815};
+        int[] end = {-1, -1, -1, 820};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -627,9 +641,9 @@ public class AmverseasBinDecoder {
      * was manufactured. A value of -999 is returned when there is no value.
      */
     public int getXBTProbeManufacturedYear() {
-        int[] start = {-1, -1, 821};
-        int[] end = {-1, -1, 832};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 821};
+        int[] end = {-1, -1, -1, 832};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -642,9 +656,9 @@ public class AmverseasBinDecoder {
      * value.
      */
     public int getXBTProbeManufacturedMonth() {
-        int[] start = {-1, -1, 833};
-        int[] end = {-1, -1, 836};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 833};
+        int[] end = {-1, -1, -1, 836};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -657,9 +671,9 @@ public class AmverseasBinDecoder {
      * value.
      */
     public int getXBTProbeManufacturedDay() {
-        int[] start = {-1, -1, 837};
-        int[] end = {-1, -1, 842};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 837};
+        int[] end = {-1, -1, -1, 842};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -672,9 +686,9 @@ public class AmverseasBinDecoder {
      * is returned when there is no value.
      */
     public int getNumberOfRiderBlocks() {
-        int[] start = {-1, -1, 843};
-        int[] end = {-1, -1, 848};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 843};
+        int[] end = {-1, -1, -1, 848};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -687,9 +701,9 @@ public class AmverseasBinDecoder {
      * A value of -999 is returned when there is no value.
      */
     public int getNumberOfRiderInstBlocks() {
-        int[] start = {-1, -1, 849};
-        int[] end = {-1, -1, 854};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 849};
+        int[] end = {-1, -1, -1, 854};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -702,9 +716,9 @@ public class AmverseasBinDecoder {
      * value of -999 is returned when there is no value.
      */
     public int getNumberOfRiderEmailBlocks() {
-        int[] start = {-1, -1, 855};
-        int[] end = {-1, -1, 860};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 855};
+        int[] end = {-1, -1, -1, 860};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -717,9 +731,9 @@ public class AmverseasBinDecoder {
      * value of -999 is returned when there is no value.
      */
     public int getNumberOfRiderPhoneBlocks() {
-        int[] start = {-1, -1, 861};
-        int[] end = {-1, -1, 866};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 861};
+        int[] end = {-1, -1, -1, 866};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -733,9 +747,9 @@ public class AmverseasBinDecoder {
      * value of -999 is returned when there is no value.
      */
     public int getNumberOfRepFields() {
-        int[] start = {597, 707, 867};
-        int[] end = {604, 714, 874};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 597, 707, 867};
+        int[] end = {-1, 604, 714, 874};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -748,9 +762,9 @@ public class AmverseasBinDecoder {
      * there is no value.
      */
     public int getTimesReplicated() {
-        int[] start = {605, 715, 875};
-        int[] end = {620, 730, 890};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 605, 715, 875};
+        int[] end = {-1, 620, 730, 890};
+        int mt = getNewMessageType();
         return toInteger(start[mt], end[mt]);
     }// end method
 
@@ -763,9 +777,9 @@ public class AmverseasBinDecoder {
      * there is no value.
      */
     public double getSeaTemperature() {
-        int[] start = {621, 731, 891};
-        int[] end = {632, 742, 902};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 621, 731, 891};
+        int[] end = {-1, 632, 742, 902};
+        int mt = getNewMessageType();
         return (toInteger(start[mt], end[mt]) - 400.00) / 100.00;
     }// end method
 
@@ -777,9 +791,9 @@ public class AmverseasBinDecoder {
      * the sea/water surface A value of -999 is returned when there is no value.
      */
     public double getSeaDepth() {
-        int[] start = {633, -1, -1};
-        int[] end = {646, -1, -1};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 633, -1, -1};
+        int[] end = {-1, 646, -1, -1};
+        int mt = getNewMessageType();
         return (double) (toInteger(start[mt], end[mt]));
     }// end method
 
@@ -792,8 +806,8 @@ public class AmverseasBinDecoder {
      * when there are no values.
      */
     public double[] getTemperaturePoints() {
-        int[] start = {621, 731, 891};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, 621, 731, 891};
+        int mt = getNewMessageType();
 
         int points = getTimesReplicated();
         if (points < 0) {
@@ -817,8 +831,8 @@ public class AmverseasBinDecoder {
      * name. A value of "NONE" is returned when there is no value.
      */
     public String getRiderName() {
-        int[] start = {-1, -1, 891};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 891};
+        int mt = getNewMessageType();
 
         int s = start[mt] + 12 * getTimesReplicated();
         return toString(s, s + getNumberOfRiderBlocks() * 40);
@@ -831,8 +845,8 @@ public class AmverseasBinDecoder {
      * email. A value of "NONE" is returned when there is no value.
      */
     public String getRiderEmail() {
-        int[] start = {-1, -1, 891};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 891};
+        int mt = getNewMessageType();
 
         int s = start[mt] + 12 * getTimesReplicated() + getNumberOfRiderBlocks() * 40;
         return toString(s, s + getNumberOfRiderEmailBlocks() * 40);
@@ -846,8 +860,8 @@ public class AmverseasBinDecoder {
      * institution. A value of "NONE" is returned when there is no value.
      */
     public String getInstituion() {
-        int[] start = {-1, -1, 891};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 891};
+        int mt = getNewMessageType();
 
         int s = start[mt] + 12 * getTimesReplicated() + getNumberOfRiderBlocks() * 40 + getNumberOfRiderEmailBlocks() * 40;
         return toString(s, s + getNumberOfRiderInstBlocks() * 40);
@@ -861,8 +875,8 @@ public class AmverseasBinDecoder {
      * phone number. A value of "NONE" is returned when there is no value.
      */
     public String getRiderPhone() {
-        int[] start = {-1, -1, 891};
-        int mt = getNewMessageType() - 1;
+        int[] start = {-1, -1, -1, 891};
+        int mt = getNewMessageType();
 
         int s = start[mt] + 12 * getTimesReplicated() + getNumberOfRiderBlocks() * 40 + getNumberOfRiderEmailBlocks() * 40 + getNumberOfRiderInstBlocks() * 40;
         return toString(s, s + getNumberOfRiderPhoneBlocks() * 40);
@@ -879,30 +893,35 @@ public class AmverseasBinDecoder {
      * integer from a sequence of bits.
      */
     private int toInteger(int start, int end) {
-        if (start < 0 || end < 0 || end - start <= 0) {
-            return -999;
-        }
-        end++;
-        BitSet b = bits.get(start, end);
-        int integer = 0;
-        char bit;
-        int bLength = end - start;
-        for (int i = 0; i < bLength; i++) {
-            if (i < bLength + 1) {
-                if (b.get(i)) {
-                    bit = 0x01;
-                } else {
-                    bit = 0x00;
-                }
-                integer = integer | bit;
-            }//end if
-            if (i < bLength - 1) {
-                integer = integer << 1;
+        try {
+            if (start < 0 || end < 0 || end - start <= 0) {
+                return -999;
             }
+            end++;
+            BitSet b = bits.get(start, end);
+            int integer = 0;
+            char bit;
+            int bLength = end - start;
+            for (int i = 0; i < bLength; i++) {
+                if (i < bLength + 1) {
+                    if (b.get(i)) {
+                        bit = 0x01;
+                    } else {
+                        bit = 0x00;
+                    }
+                    integer = integer | bit;
+                }//end if
+                if (i < bLength - 1) {
+                    integer = integer << 1;
+                }
 
-        }//end for
+            }//end for
 
-        return integer;
+            return integer;
+        }//end try
+        catch (Exception e) {
+            return -999;
+        }//end catch
     }//end method
 
     /**
@@ -916,19 +935,23 @@ public class AmverseasBinDecoder {
      * from a sequence of bits.
      */
     private String toString(int start, int end) {
-        if (start < 0 || end < 0 || end - start <= 0) {
+        try {
+            if (start < 0 || end < 0 || end - start <= 0) {
+                return "NONE";
+            }
+
+            String str = "";
+            BitSet b = bits.get(start, end);
+            byte[] bytes;
+            bytes = changeEndian(b).toByteArray();
+
+            for (int i = 0; i < bytes.length; i++) {
+                str += (char) bytes[i];
+            }
+            return str;
+        } catch (Exception e) {
             return "NONE";
-        }
-
-        String str = "";
-        BitSet b = bits.get(start, end);
-        byte[] bytes;
-        bytes = changeEndian(b).toByteArray();
-
-        for (int i = 0; i < bytes.length; i++) {
-            str += (char) bytes[i];
-        }
-        return str;
+        }//end catch
     }//end method
 
     /**
