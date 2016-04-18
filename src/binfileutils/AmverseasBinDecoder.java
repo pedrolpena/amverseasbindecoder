@@ -215,7 +215,7 @@ public class AmverseasBinDecoder {
      * when the measurement was made A value of -999 is returned when there is
      * no value.
      */
-    public int getMiunte() {
+    public int getMinute() {
         int[] start = {166, 237, 237};
         int[] end = {171, 242, 242};
         int mt = getNewMessageType() - 1;
@@ -1001,7 +1001,7 @@ public class AmverseasBinDecoder {
                 + "Transect#=" + getTransectNumber() + "\n"
                 + "Sequence#=" + getSequenceNumber() + "\n"
                 + "date=" + getMonth() + "/" + getDay() + "/" + getYear() + "\n"
-                + "time=" + getHour() + ":" + getMiunte() + "\n"
+                + "time=" + getHour() + ":" + getMinute() + "\n"
                 + "ShipName=" + getShipName() + "\n"
                 + "Lloyds=" + getLloyds() + "\n"
                 + "Unique tag=" + Integer.toHexString(getUniqueTag()) + "\n"
