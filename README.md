@@ -1,1 +1,2 @@
-# amverseasbindecoder
+<h1>PLEASE USE AMVERSEASBINFILEUTILS INSTEAD OF THIS</h1>
+# amverseasbindecoder LIBRARY
